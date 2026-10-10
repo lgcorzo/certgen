@@ -32,7 +32,8 @@ import (
 var version = "(dev)"
 
 var (
-	host       = flag.String("host", "", "Comma-separated hostnames and IPs to generate a certificate for")
+	showVersion = flag.Bool("version", false, "Show version information")
+	host        = flag.String("host", "", "Comma-separated hostnames and IPs to generate a certificate for")
 	ecdsaCurve = flag.String("ecdsa-curve", "P256", "ECDSA curve to use to generate a key. Valid values are P224, P256 (recommended), P384, P521")
 	ed25519Key = flag.Bool("ed25519", false, "Generate an Ed25519 key")
 	orgName    = flag.String("org-name", "Certgen Development", "Organization name used when generating the certs")
@@ -76,6 +77,11 @@ func init() {
 
 func main() {
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Printf("certgen version %s\n", version)
+		return
+	}
 
 	if len(*host) == 0 {
 		log.Fatalf("Missing required --host parameter")
